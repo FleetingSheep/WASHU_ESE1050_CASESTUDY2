@@ -6,7 +6,7 @@ function G = make_complete(n) %matrix size
 %G = 11' - I
 
 %initialize building blocks to create G
-one = ones(n, 1);
+one = ones(n, n);
 I = eye(n);
 
 G = one - I;
@@ -14,3 +14,8 @@ G = one - I;
 %Done!
 
 end
+
+
+
+
+

@@ -31,7 +31,7 @@ oldState = rng;
 rng(seed, 'twister');
 cleanup = onCleanup(@() rng(oldState));
 
-% ---- zones: how many, how big, and how many robots in each ----
+% ---- zones: how many,  how big, and how many robots in each ----
 nz = randi([2 4]);
 side = 3 + 2*rand(nz, 1);
 sizes = 10*ones(nz, 1) + accumarray(randi(nz, n - 10*nz, 1), 1, [nz 1]);
