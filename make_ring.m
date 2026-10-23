@@ -2,6 +2,22 @@ function G = make_ring(n, k) %matrix size, ring-neighbors amount
 %MAKE RING  Build ring topology adjacency matrix, in which each robot
 %   connects to k ring-neighbors on each side.
 %
-%   Cylic shift matrix: Se_j = e_(j + 1)    with indices mod(n)
+%   Cyclic shift matrix: Se_j = e_(j + 1)    with indices mod(n)
 %
 %   G = Summation starting from j = 1 to k, S^j + (S^j)'
+
+G = zeros(n, n);
+unitVector = eye(n);
+
+S = [unitVector(:, 2:end), unitVector(:, 1)]; 
+%move first column of unit vector to the end
+
+for j = 1:k
+    G = G + S^j + (S^j)';
+end
+
+G(G > 1) = 1; %stop connections from overlapping
+G(1:n+1:end) = 0; %set diagonals to 0
+end
+
+% Done!
