@@ -5,11 +5,11 @@ function G = make_complete(n) %matrix size
 %
 %G = 11' - I
 
-%initialize building blocks to create G
-one = ones(n, n);
+%init
+one = ones(n, 1);
 I = eye(n);
 
-G = one - I;
+G = one*one' - I; %outer product of 1s vectors creates 1s matrix of nxn
 
 %Done!
 

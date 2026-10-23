@@ -10,10 +10,13 @@ G = zeros(n, n);
 unitVector = eye(n);
 
 S = [unitVector(:, 2:end), unitVector(:, 1)]; 
-%move first column of unit vector to the end
+%move first column of unit vector to the end. the result is a
+%downshifted set of unit vectors. the last column gives backward adjacency,
+%i.e. with n = 4 connecting nodes 1 and 4
 
 for j = 1:k
     G = G + S^j + (S^j)';
+    %starting from the diagonals add adjacency to tiles "above" and "below"
 end
 
 G(G > 1) = 1; %stop connections from overlapping
