@@ -10,3 +10,23 @@ function G = make_disk(P, r) %positions matrix, radius
 %
 %   Then form G by comparing squared distances to r^2 and subtracting I the
 %   identity matrix.
+
+%init
+n = size(P, 1);
+s = sum(P.^2, 2); %square each element of P, then add each x and y
+one = ones(1, n);
+I = eye(n);
+
+delta = s*one' + one*s' - 2*(P*P');
+%create star topology while encoding distances
+
+delta(delta < r^2) = 1; %if within range
+delta(delta >= r^2) = 0; %if outside of range
+
+G = delta;
+
+G(1:n+1:end) = 0; %set diagonals to 0
+
+end
+
+% Done!
