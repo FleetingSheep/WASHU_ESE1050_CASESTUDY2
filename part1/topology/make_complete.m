@@ -10,18 +10,7 @@ function W = make_complete(n) %matrix size
     I = eye(n);
 
     G = one*one' - I; %outer product of 1s vectors creates 1s matrix of nxn
-    d = G*1; %Establishes the degree vector, or how many drones each one can hear
-    D = diag(d);
-    epsilon = 1 / max(d);
-    L = D - G;
-    %Done!
-    if (Protocol == 1)
-        W = (I + D)'*(I + G);
-    elseif (Protocol == 2)
-        W = I - (epsilon * L);
-    end
-
-end
+    %subtracting I eliminates diagonals
 
 
 

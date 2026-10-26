@@ -21,17 +21,5 @@ function W = make_ring(n, k) %matrix size, ring-neighbors amount
 
     G(G > 1) = 1; %stop connections from overlapping
     G(1:n+1:end) = 0; %set diagonals to 0
-    d = G*1; %Establishes the degree vector, or how many drones each one can hear
-    D = diag(d);
-    epsilon = 1 / max(d);
-    L = D - G;
-
-    if (Protocol == 1)
-        W = (I + D)'*(I + G);
-    elseif (Protocol == 2)
-        W = I - (epsilon * L);
-    end
-
-end
 
 % Done!
