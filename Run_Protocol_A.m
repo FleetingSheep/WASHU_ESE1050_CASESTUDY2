@@ -6,8 +6,13 @@ addpath("part1\topology\"); %MATLAB doesn't read those functions as in the folde
 n = 150;
 k = 2; % Number of neightbors that each drone will have (when limited by count)
 K = 150; % Number of iterations for the matrix to be applied
-W = make_star(n, 1);
-
+Protocol  = 1;
+seed = 314;
+D = make_deployment(seed);
+W = make_ring(n, k, Protocol);
+P = D.P0;
+x0 = P(:, 1);
+y0 = P(:, 2);
 X = simulate_linear(W, x0, K);
 Y = simulate_linear(W, y0, K);
 

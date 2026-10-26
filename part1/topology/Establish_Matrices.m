@@ -1,8 +1,9 @@
-function W =Establish_Matrices (G, Protocol)
+function W = Establish_Matrices(G, Protocol)
 
+n = size(G, 1);
+one = ones(n, 1);
+I = eye(n);
 
-
-I = size(G, 1);
 d = G * one; %Establishes the degree vector, or how many drones each one can hear
     D = diag(d);
     epsilon = 1 / max(d);

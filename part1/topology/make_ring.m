@@ -21,7 +21,7 @@ function [G, W] = make_ring(n, k, Protocol) %matrix size, ring-neighbors amount
 
     G(G > 1) = 1; %stop connections from overlapping
     G(1:n+1:end) = 0; %set diagonals to 0
-    W = Establish_Matrices (G, Protocol);
+    W = Establish_Matrices(G, Protocol);
 
 % Done!
 end 

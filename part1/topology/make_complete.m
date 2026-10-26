@@ -13,6 +13,6 @@ function [G, W] = make_complete(n, Protocol) %matrix size
     %subtracting I eliminates diagonals
 
 
-W = Establish_Matrices (G, Protocol);
+W = Establish_Matrices(G, Protocol);
 
 end
