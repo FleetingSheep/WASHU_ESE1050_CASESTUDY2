@@ -4,9 +4,9 @@
 
 ### Part 1:
 
--> Find value of radius r such that disk behaves like ring
+-> Find value of radius r such that disk behaves like ring (apparently, this should be calculated at runtime using the distribution of the deployed nodes, NOT a predetermined number / design decision as Dr. Ching said?)
 
--> Find value of k such that ring behaves like disk
+-> Find value of k such that ring behaves like disk (likewise, this will need to be at runtime))
 
 -> "test every function on a small example whose answer you can check by eye" to be added in the report
 

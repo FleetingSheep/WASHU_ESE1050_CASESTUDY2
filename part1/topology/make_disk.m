@@ -19,12 +19,7 @@ function G = make_disk(P, r) %positions matrix, radius
     delta = s*one' + one*s' - 2*(P*P');
     %create star topology while encoding distances
 
-    delta(delta < r^2) = 1; %if within range
-    delta(delta >= r^2) = 0; %if outside of range
-
-    delta = delta < r^2; %now, only values within range are 1 and rest 0
-
-    G = delta;
+    G = delta < r^2; %now, only values within range are 1 and rest 0
 
     G(1:n+1:end) = 0; %set diagonals to 0
 
