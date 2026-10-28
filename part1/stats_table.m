@@ -1,10 +1,13 @@
 addpath("part1\topology\"); %MATLAB doesn't read those functions as in the folder otherwise
 
-n = 150;
-D = make_deployment(100); %arbitrary seed value
-P = D.P0;
+rng(105);
+P = [5*rand(50,2); 5*rand(50,2) + [6 0]];
+n = 100;
 k = 5; %CHANGE LATER!
 r = 1.25; %CHANGE LATER!
+
+%find radius for disk method so that everything is connected
+%to be added...
 
 G = make_complete(n);
 stats_complete = graph_stats(G);
@@ -18,7 +21,7 @@ stats_ring = graph_stats(G);
 G = make_disk(P, r);
 stats_disk = graph_stats(G);
 
-stats = [stats_complete', stats_star', stats_ring', stats_disk'];
+stats = [stats_complete; stats_star; stats_ring; stats_disk];
 
 %table:
 
