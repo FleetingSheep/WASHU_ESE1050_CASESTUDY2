@@ -1,4 +1,4 @@
-function [G, W] = make_ring(n, k, Protocol) %matrix size, ring-neighbors amount
+function G = make_ring(n, k) %matrix size, ring-neighbors amount
     %MAKE RING  Build ring topology adjacency matrix, in which each robot
     %   connects to k ring-neighbors on each side.
     %
@@ -21,7 +21,6 @@ function [G, W] = make_ring(n, k, Protocol) %matrix size, ring-neighbors amount
 
     G(G > 1) = 1; %stop connections from overlapping
     G(1:n+1:end) = 0; %set diagonals to 0
-    W = Establish_Matrices(G, Protocol);
 
 % Done!
 end 

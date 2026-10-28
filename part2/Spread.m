@@ -1,6 +1,6 @@
 function delta = Spread(D, k)
 
-P = D.P0;
+P = D.P0; %grab position matrix from deployment, top row x and bottom y
 x = P(:, 1);
 y = P(:, 2);
 n = size(x);

@@ -1,4 +1,4 @@
-function [G, W] = make_star(n, Protocol) % n = matrix size, 
+function G = make_star(n) % n = matrix size, 
     %MAKE STAR  Build star (aka base station) topology adjacency matrix, in 
     %   which robots connect to one central "hub" and there are no other
     %   connections.
@@ -14,6 +14,5 @@ function [G, W] = make_star(n, Protocol) % n = matrix size,
     e1(1) = 1; %column of 0s with 1 at the top becomes unit vector e1
 
     G = e1 * one' + one * e1' - 2 * (e1 * e1');
-    W = Establish_Matrices(G, Protocol);
     % Done!
 end

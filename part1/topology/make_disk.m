@@ -1,4 +1,4 @@
-function [G, W] = make_disk(P, r, Protocol) %positions matrix, radius
+function G = make_disk(P, r) %positions matrix, radius
     %MAKE RING  Build disk (aka radio range) topology adjacency matrix, in
     %   which robots can only communicate if within distance r of each other.
     %
@@ -14,7 +14,7 @@ function [G, W] = make_disk(P, r, Protocol) %positions matrix, radius
     %init
     n = size(P, 1);
     s = sum(P.^2, 2); %square each element of P, then add each x and y
-    one = ones(1, n);
+    one = ones(n, 1);
 
     delta = s*one' + one*s' - 2*(P*P');
     %create star topology while encoding distances
@@ -25,6 +25,5 @@ function [G, W] = make_disk(P, r, Protocol) %positions matrix, radius
     G = delta;
 
     G(1:n+1:end) = 0; %set diagonals to 0
-    W = Establish_Matrices(G, Protocol);
 % Done!
 end
