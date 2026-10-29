@@ -1,4 +1,5 @@
-function G = make_ring(n, P) %matrix size, ring-neighbors amount
+function G = make_ring(n, P) %matrix size, positions for running disk
+
     %MAKE RING  Build ring topology adjacency matrix, in which each robot
     %   connects to k ring-neighbors on each side.
     %

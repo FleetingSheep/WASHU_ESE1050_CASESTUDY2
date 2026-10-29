@@ -3,8 +3,6 @@ addpath("part1\topology\"); %MATLAB doesn't read those functions as in the folde
 rng(105);
 P = [5*rand(50,2); 5*rand(50,2) + [6 0]];
 n = 100;
-k = 5; %CHANGE LATER!
-r = 1.25; %CHANGE LATER!
 
 %find radius for disk method so that everything is connected
 %to be added...
@@ -15,10 +13,10 @@ stats_complete = graph_stats(G);
 G = make_star(n);
 stats_star = graph_stats(G);
 
-G = make_ring(n, k);
+G = make_ring(n, P);
 stats_ring = graph_stats(G);
 
-G = make_disk(P, r);
+G = make_disk(P);
 stats_disk = graph_stats(G);
 
 stats = [stats_complete; stats_star; stats_ring; stats_disk];
