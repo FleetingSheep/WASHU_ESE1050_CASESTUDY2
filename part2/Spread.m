@@ -1,10 +1,8 @@
-function delta = Spread(D)
-    Seed = 314;
-    D = make_deplaoyment(Seed);
+function delta = Spread(W, D)
     P = D.P0; %grab position matrix from deployment, top row x and bottom y
     x0 = P(:, 1);
     y0 = P(:, 2);
-    n = size(x);
+    n = size(P, 1);
     one = ones(1, n);
     C = eye(n) - (1/n)*(one)*(one)';
 
@@ -13,9 +11,9 @@ function delta = Spread(D)
     Spread0 = sqrt(norm(C*x0)^2+norm(C*y0)^2);
     while true
         xk = simulate_linear(W, x0, K);
-        yk = simulate_linear(W, x0, K);
+        yk = simulate_linear(W, y0, K);
 
-        delta = sqrt((norm(C.*xk)^2)+(norm(C*yk)^2));
+        delta = sqrt((norm(C*xk)^2)+(norm(C*yk)^2));
         if delta <= 0.01 * Spread0
             break;
         end
