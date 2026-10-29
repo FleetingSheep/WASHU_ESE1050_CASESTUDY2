@@ -1,5 +1,4 @@
-function [delta, K] = Spread(W, D)
-    P = D.P0; %grab position matrix from deployment, top row x and bottom y
+function [delta, K] = Spread(W, P)
     x0 = P(:, 1);
     y0 = P(:, 2);
     n = size(P, 1);
