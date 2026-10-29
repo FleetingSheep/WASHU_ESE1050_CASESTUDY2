@@ -24,7 +24,7 @@ function G = make_disk(P) %positions matrix, radius
     while true
         
         delta = s*one' + one*s' - 2*(P*P'); %effectively creating a star topology while encoding distances
-        G = delta < r^2; %only values within range are 1 and rest 0
+        G = delta <= r^2; %only values within range are 1 and rest 0
         G(1:n+1:end) = 0; %set diagonals to 0
 
         stats = graph_stats(G);
