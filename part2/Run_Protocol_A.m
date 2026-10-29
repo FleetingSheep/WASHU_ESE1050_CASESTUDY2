@@ -4,7 +4,7 @@ addpath("part1\topology\"); %MATLAB doesn't read those functions as in the folde
 
 % Creates the matrix to get the average values at various values of k
 n = 150;
-k = 2; % Number of neightbors that each drone will have (when limited by count)
+k = 2; % Number of neighbors that each drone will have (when limited by count)
 K = 150; % Number of iterations for the matrix to be applied
 Protocol  = 1;
 seed = 314;

@@ -12,6 +12,9 @@ function [delta, K] = Spread(W, P)
         xk = simulate_linear(W, x0, K);
         yk = simulate_linear(W, y0, K);
 
+        xk = xk(:, end); %simulate_linear returns the history by default, so we need to grab the last column instead
+        yk = yk(:, end);
+
         delta = sqrt((norm(C*xk)^2)+(norm(C*yk)^2));
         if delta <= 0.01 * Spread0
             break;
