@@ -1,3 +1,4 @@
+
 function G = make_disk(P) %positions matrix
     %MAKE RING  Build disk (aka radio range) topology adjacency matrix, in
     %   which robots can only communicate if within distance r of each other.
@@ -10,6 +11,7 @@ function G = make_disk(P) %positions matrix
     %
     %   Then form G by comparing squared distances to r^2 and subtracting I the
     %   identity matrix.
+    addpath("part1\")
 
     %init
     n = size(P, 1);

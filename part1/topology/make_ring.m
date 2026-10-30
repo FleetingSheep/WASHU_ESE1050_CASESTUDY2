@@ -8,7 +8,7 @@ function G = make_ring(n, P) %matrix size, positions for running disk
     %   G = Summation starting from j = 1 to k, S^j + (S^j)'
 
     %   init
-    G = zeros(n, n);
+    G = zeros(n);
     unitVector = eye(n);
     k = 0;
 
@@ -43,7 +43,7 @@ function G = make_ring(n, P) %matrix size, positions for running disk
         %find who is closer.
 
         k = k + 1;
-        G = zeros(n, n);
+        G = zeros(n);
         for j = 1:k
             G = G + S^j + (S^j)';
              %starting from the diagonals add adjacency to tiles "above"

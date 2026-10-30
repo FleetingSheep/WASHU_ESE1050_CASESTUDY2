@@ -24,7 +24,7 @@ diskTestMatrix(3,2) = 4;
 diskTestMatrix(4,2) = -8;
 diskTestMatrix(5,2) = 2;
 diskTestMatrix(6,2) = -3;
-diskTest = make_disk(diskTestMatrix,1);
+diskTest = make_disk(diskTestMatrix);
 statsDisk = graph_stats(diskTest)
 
 % P = diskTestMatrix;
