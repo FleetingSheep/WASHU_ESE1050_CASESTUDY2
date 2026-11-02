@@ -7,6 +7,7 @@ function [delta, K] = Spread(W, P)
 
 
     K = 0;
+    delta = []; %spread history
     Spread0 = sqrt(norm(C*x0)^2+norm(C*y0)^2);
     while true
         xk = simulate_linear(W, x0, K);
@@ -15,15 +16,11 @@ function [delta, K] = Spread(W, P)
         xk = xk(:, end); %simulate_linear returns the history by default, so we need to grab the last column instead
         yk = yk(:, end);
 
-        delta = sqrt((norm(C*xk)^2)+(norm(C*yk)^2));
-        if delta <= 0.01 * Spread0
+        delta(end + 1) = sqrt((norm(C*xk)^2)+(norm(C*yk)^2));
+        if delta(end) <= 0.01 * Spread0
             break;
         end
         K = K + 1;
     end
-
-    
-
-
     
 end

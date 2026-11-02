@@ -7,8 +7,7 @@ addpath("part1\topology\"); %MATLAB doesn't read those functions as in the folde
 rng(105);
 P = [5*rand(50,2); 5*rand(50,2) + [6 0]];
 n = 100;
-K = 150; % Number of iterations for the matrix to be applied
-Protocol  = 1;
+K = 125; % Number of iterations for the matrix to be applied
 seed = 314;
 G = make_ring(n, P);
 W = Establish_Matrices(G, 1);
