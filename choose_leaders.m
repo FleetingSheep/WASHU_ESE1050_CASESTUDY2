@@ -29,11 +29,28 @@ function S = choose_leaders(G, P0, faulty, g, m)
 %   Strategy (2-3 sentences describing your rule, in words):
 %   <describe it here>
 
+
+
+
 n = size(G, 1);
 working = true(n, 1);
 working(faulty) = false;
 
-% ---- replace this placeholder with your strategy ----
-S = [];   % no leaders: valid, but scores 0
+% Most direct Connections, then down the line, excluding those connected.
+S = [m, 1];   % no leaders: valid, but scores 0
+% S Will track the indices of the robots who are selected to be leaders
+
+Connections = G*ones(n, 1);
+for n = 1:m
+    if ~any(working)
+        Tracker = Connections;
+        Tracker(~working) = -Inf;   % Makes sure the faulty ones can't be selected
+        [~, i] = max(Tracker);      % Finds the index of the most connected drone
+        S(n) = i;                   % Saves the index in S
+        Tracker(i) = false;         % Last to make sure that that drone and connected ones can't be chosen for leader.
+        Tracker(G(i,:) > 0) = false;
+    end
+end
+
 
 end
