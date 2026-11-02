@@ -3,7 +3,7 @@ seed = 314;
 n = 150;
 m = 4; % Given in CS
 D = make_deployment(seed);
-Protocol = 1; %Protocol A = 1, Procol B = 2
+Protocol = 1; %Protocol A = 1, Protocol B = 2
 
 % G = make_complete(n);
 % G = make_disk(D.P0);

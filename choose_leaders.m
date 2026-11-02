@@ -23,12 +23,11 @@ function S = choose_leaders(G, P0, faulty, g, m)
 %       Helper functions are allowed, but put them in this file, below
 %       this function, so that this single file is all we need to run it.
 %
-%   Team: <team name>
+%   Team: Group 27
 %   Members: Jack Walker, Andrew Chen, Christopher Munson
 %
 %   Strategy (2-3 sentences describing your rule, in words):
 %   <describe it here>
-
 
 
 

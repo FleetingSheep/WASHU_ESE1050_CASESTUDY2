@@ -2,8 +2,8 @@ function [delta, K] = Spread(W, P)
     x0 = P(:, 1);
     y0 = P(:, 2);
     n = size(P, 1);
-    one = ones(1, n);
-    C = eye(n) - (1/n)*(one)*(one)';
+    one = ones(n, 1);
+    C = eye(n) - (one*one')/n;
 
 
     K = 0;

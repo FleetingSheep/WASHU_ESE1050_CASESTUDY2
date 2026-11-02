@@ -3,14 +3,15 @@
 addpath("part1\topology\"); %MATLAB doesn't read those functions as in the folder otherwise
 
 % Creates the matrix to get the average values at various values of k
-n = 150;
-k = 2; % Number of neighbors that each drone will have (when limited by count)
+
+rng(105);
+P = [5*rand(50,2); 5*rand(50,2) + [6 0]];
+n = 100;
 K = 150; % Number of iterations for the matrix to be applied
 Protocol  = 1;
 seed = 314;
-D = make_deployment(seed);
-W = make_ring(n, k, Protocol);
-P = D.P0;
+G = make_ring(n, P);
+W = Establish_Matrices(G, 1);
 x0 = P(:, 1);
 y0 = P(:, 2);
 X = simulate_linear(W, x0, K);
