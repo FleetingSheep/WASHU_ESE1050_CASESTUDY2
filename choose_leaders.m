@@ -78,6 +78,9 @@ for step = 1:m
 
     %even if there are no uncovered robots, this loop will continue and
     %select one at random, since their effective degrees will all be 0.
+
+    %in fact, we should always assign 4 leaders to maximize pull even if
+    %they don't cover additional nodes.
 end
 
 
