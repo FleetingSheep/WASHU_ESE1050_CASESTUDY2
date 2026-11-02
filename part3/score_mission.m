@@ -40,10 +40,14 @@ X_new = simulate_anchored(W,lambda,a,x0,T);
 Y_new = simulate_anchored(W,lambda,b,y0,T);
 
 
-% Compute mean squared distance to the goal at each time step.
+%Computes mean squared distance to the goal at each time step
+%D.g is the rally point
 
 eBase = mean((X_base - D.g(1)).^2 + (Y_base - D.g(2)).^2, 2);
 eNew = mean((X_new - D.g(1)).^2 + (Y_new - D.g(2)).^2, 2);
+
+%since the summation starts at k = 1, exclude the initial node placement
+%from score calculation
 e_base_k = eBase(2:end);
 e_new_k = eNew(2:end);
 
