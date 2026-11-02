@@ -38,6 +38,9 @@ maxDegree = max(d);
 
 stats = [avgDegree, maxDegree, edges, diameter];
 
+%returning the overall degree vector as an argument is highly troublesome
+%in stats_table, so we return only the required average degree and max
+%degree instead, which is the same in effect.
 end
 
 % Done!

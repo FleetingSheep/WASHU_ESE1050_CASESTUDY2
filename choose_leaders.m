@@ -26,10 +26,65 @@ function S = choose_leaders(G, P0, faulty, g, m)
 %   Team: Group 27
 %   Members: Jack Walker, Andrew Chen, Christopher Munson
 %
-%   Strategy (2-3 sentences describing your rule, in words):
-%   <describe it here>
+%   Strategy: We select leaders one at a time by choosing the working robot
+%   that is connected to the most robots not "covered for" by a leader.
+%   After that assignment, the leader and all of its connected nodes are
+%   "covered" and the process repeats. The leaders mimic centroids and
+%   cluster the nodes which distributes leaders across the swarm, rather 
+%   than concentrating them where their relative impact on group movement 
+%   will be minimal.
 
 
+
+n = size(G,1);
+working = true(n, 1);
+working(faulty) = false; %exclude faulty nodes from prospective leader pool
+S = []; % no leaders: valid, but scores 0
+
+coverage = (G + eye(n)) > 0; 
+%adding the identity matrix lets leaders "cover" themselves
+%setting this as an inequality against 0 shouldn't matter unless G is
+%wrong, but better safe than sorry
+
+eligible = working; %working robots who are not yet leaders
+covered = false(n,1); %leaders, or robots covered by a leader
+
+for step = 1:m
+    %if there are no more working leader candidates, abort early!!
+    if ~any(eligible)
+        break;
+    end
+
+    uncovered = working & ~covered;
+    
+    scores = double(coverage)' * double(uncovered);
+    %each candidate for leadership 
+
+    scores(~eligible) = -Inf;
+    %disqualify faulty robots and the previously selected leaders from leadership
+    %even if they shouldn't be part of the pool it doesn't hurt to have a
+    %fail safe
+    
+   
+    candidates = find(scores == max(scores));
+    leader = candidates(floor(rand * length(candidates)) + 1);
+    %find the strongest candidate. if there's a tie, choose randomly
+    %between them
+    
+    S(end+1) = leader;
+    eligible(leader) = false; %remove selected leader from pool
+
+    covered = covered | coverage(:, leader);
+
+    %even if there are no uncovered robots, this loop will continue and
+    %select one at random, since their effective degrees will all be 0.
+end
+
+
+
+%{
+
+old code
 
 n = size(G, 1);
 working = true(n, 1);
@@ -53,3 +108,4 @@ end
 
 
 end
+%}
