@@ -57,9 +57,17 @@ for trial = 1:N %tested across 20 seeds
         
     end
     scores(trial, 2) = score_mission(D, S);
-    S = [];
     eligible = working;
-
+    
+    %find worst performance
+    if scores(trial,4) < worst_score
+        worst_score = scores(trial,4);
+        worst_D = D;
+        worst_leaders = S;
+    end
+    
+    S = [];
+    
     %closest
     for i = 1:m
         candidates = find(eligible);
@@ -79,11 +87,6 @@ for trial = 1:N %tested across 20 seeds
     scores(trial, 4) = score_mission(D, S);
     
     %find possible worst trial to visualize later
-    if scores(trial,4) < worst_score
-        worst_score = scores(trial,4);
-        worst_D = D;
-        worst_leaders = S;
-    end
 
 
 end
@@ -107,8 +110,12 @@ title('Leader Selection Method Score Comparison')
 grid on;
 
 %worst case seed analysis
-
 export_for_viewer(worst_D, worst_leaders, 'swarm.json');
+
+disp('Average scores:');
+disp(mean(scores,1));
+disp('Worst scores:');
+disp(min(scores,[],1));
 
 
 

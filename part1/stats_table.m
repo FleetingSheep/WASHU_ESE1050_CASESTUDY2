@@ -43,6 +43,8 @@ T = uitable(uifigure, ...
 %graph ends up exceedingly wide if columnwidth and position are not
 %set manually
 
+%even though we ended up just using a table in google docs...
+
 A_disk = make_disk(P);
 stats_disk = graph_stats(A_disk);
 
