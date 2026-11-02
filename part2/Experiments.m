@@ -50,13 +50,17 @@ spreads(1:length(d_ring),3) = d_ring(:);
 spreads(1:length(d_disk),4) = d_disk(:);
 spreads(1:length(d_large_disk),5) = d_large_disk(:);
 
-figure; 
-plot(steps, spreads, 'LineWidth', 1.5);
+fig = figure;
+ax = axes(fig);
+plot(ax, steps, spreads, 'LineWidth', 2);
 
-yscale log;
-xlabel('Time step k');
-ylabel('Spread \delta[k]');
-legend('Complete', 'Star', 'Ring', 'Disk', 'Larger Disk')
+set(ax, 'FontSize', 16, 'LineWidth', 1.5);
+yscale(ax, 'log');
+xlabel(ax, 'Time step k', 'FontSize', 18);
+ylabel(ax, 'Spread \delta[k]', 'FontSize', 18);
+legend(ax, {'Complete', 'Star', 'Ring', 'Disk', 'Larger Disk'}, ...
+    'FontSize', 16);
+title('Comparison of Rendezvous Times by Topology')
 
 %% Experiment 1 Explanation
 

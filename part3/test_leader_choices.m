@@ -25,6 +25,7 @@ for trial = 1:N %tested across 20 seeds
     working = true(n, 1);
     working(faulty) = false; %exclude faulty nodes from prospective leader pool
     S = [];
+    worst_score = Inf;
 
     eligible = working; %working robots who are not yet leaders
 
@@ -62,7 +63,7 @@ for trial = 1:N %tested across 20 seeds
     %closest
     for i = 1:m
         candidates = find(eligible);
-        distances = sqrt(sum((D.P0(candidates, :) - mean(D.P0(working, :), 1)).^2, 2));
+        distances = sqrt(sum((D.P0(candidates,:) - D.g).^2,2));
         [~, idx] = min(distances);
         candidate = candidates(idx);
         S(end+1) = candidate;
@@ -76,7 +77,13 @@ for trial = 1:N %tested across 20 seeds
     %our method
     S = choose_leaders(D.G, D.P0, D.faulty, D.g, m);
     scores(trial, 4) = score_mission(D, S);
-
+    
+    %find possible worst trial to visualize later
+    if scores(trial,4) < worst_score
+        worst_score = scores(trial,4);
+        worst_D = D;
+        worst_leaders = S;
+    end
 
 
 end
@@ -98,4 +105,10 @@ ylabel('Mission Score j', 'FontSize', 14);
 set(gca, 'FontSize', 14);
 title('Leader Selection Method Score Comparison')
 grid on;
+
+%worst case seed analysis
+
+export_for_viewer(worst_D, worst_leaders, 'swarm.json');
+
+
 
