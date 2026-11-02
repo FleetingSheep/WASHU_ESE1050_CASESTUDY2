@@ -102,23 +102,93 @@ legend('Complete', 'Star', 'Ring', 'Disk', 'Larger Disk')
 %% network. On the star, how far from the swarm's average position does each protocol meet,
 %% and why? Which protocol reaches rendezvous faster on the star, and why?
 
-% Rendezvous point of protocol A is the summation of (1+d_i)x0/summation(1+d_i); this means that the rendezvous point will be slightly off centered as 
-% drones with larger degrees are weighted more, causing it to move less then the others to the actual rendezvous point, same on the y-axis
 
-% The rendezvous point of protocol B is the average of all the drones, given by the fact that the end formula results in 1^Tx0/n, same on the y-axis
+x0 = P(:,1);
+y0 = P(:,2);
+average_position = mean(P,1);
 
-% For protocol A, the rendezvous point will end up being approximately 1/3 of the way between the location of the central drone and the swarms average
+K = 3000; % Disk took 2700~ time steps to converge, so we give it some wiggle room
+
+for network = 1:4
+    switch network
+        case 1
+            G = G_complete;
+            name = 'Complete';
+        case 2
+            G = G_star;
+            name = 'Star';
+        case 3
+            G = G_ring;
+            name = 'Ring';
+        case 4
+            G = G_disk;
+            name = 'Disk';
+    end
+
+    d = G*ones(n,1);
+    weights = 1 + d;
+
+    % Each prediction is a row vector
+    predicted_A = (weights'*P)/sum(weights);
+    predicted_B = average_position;
+
+    fprintf('\n%s network\n',name);
+
+    for protocol = 1:2
+        W = Establish_Matrices(G,protocol);
+
+        X = simulate_linear(W,x0,K);
+        Y = simulate_linear(W,y0,K);
+
+        if protocol == 1
+            predicted = predicted_A;
+        else
+            predicted = predicted_B;
+        end
+
+        % Distance of every final robot position from our prediction
+        errors = sqrt( ...
+            (X(:,end)-predicted(1)).^2 + ...
+            (Y(:,end)-predicted(2)).^2);
+
+        fprintf('Protocol %d predicted point: (%.6f, %.6f)\n', ...
+            protocol,predicted(1),predicted(2));
+
+        fprintf('Maximum final distance from prediction: %.3e\n', ...
+            max(errors));
+
+        if network == 2
+            offset = norm(predicted-average_position);
+            [~,rendezvous_time] = Spread(W,P);
+
+            fprintf('Distance from initial swarm average: %.6f\n', ...
+                offset);
+            fprintf('Rendezvous time: %g steps\n', rendezvous_time);
+        end
+    end
+end
+
+
+% Rendezvous point of protocol A is the summation of (1+d_i)x0/summation(1+d_i); this means that the rendezvous point is slightly off-centered as 
+% drones with larger degrees are weighted more, causing it to move less
+% then the others to the actual rendezvous point, and the same pattern is found on the y-axis.
+
+% The rendezvous point of protocol B is the average of all the drones,
+% given by the fact that the end formula results in 1^Tx0/n, and the same on the y-axis.
+
+% For protocol A, the rendezvous point ends up being approximately 1/3
+% of the way between the location of the central drone and the swarms average.
 % This is because the central drone is an extreme case where one drone has all of the weight, causing it to move very little relative to the rest of the 
 % swarm towards the average position, slowly altering it as drones approach.
 % 
 
-% For protocol B, the robots will converge on the exact average point as given by the above equation for the rendezvous point for protocol B
+% For protocol B, the robots converge on the exact average point as given by the above equation for the rendezvous point for protocol B
 
-% Protocol A will reach the rendezvous point faster as it will immediately jump to the average + bias, rather than B where they take small 
+% Protocol A will reach the rendezvous point faster for star as it will immediately jump to the average + bias, rather than B where they take small 
 % steps towards the rendezvous point. And because as the number of drones get larger, the smaller each step, as the number of drones increases, 
-% the required steps also increase
+% the required steps also increase.
 
-
+% Our predictions were therefore generally correct.
 
 
 function G = make_disk_offset(P) 

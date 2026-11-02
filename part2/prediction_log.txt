@@ -1,0 +1,8 @@
+Experiment 1:
+
+We would expect the topologies with the higher edge counts to rendezvous quicker as they have more connections and therefore more information. For that reason we expect Complete to perform the greatest, Disk with added radius and Star to perform somewhat worse, and Ring/Disk with rmin to perform the worst.
+
+Experiment 2:
+
+We expect Protocol A will gather at a weighted average of all initial positions favoring the positions of highly connected nodes, whereas Protocol B will gather at an unweighted average. On the star we expect A's meeting point to shift toward the hub's highly weighted position and for A to also converge faster.
+
