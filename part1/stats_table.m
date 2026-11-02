@@ -39,3 +39,18 @@ T = uitable(uifigure, ...
     'ColumnName', {'Average Degree', 'Max Degree', 'Edge Count', 'Diameter'}, ...
     'RowName', {'Complete', 'Star', 'Ring', 'Disk'}, ...
     'Position', [20 20 560 140]);
+
+
+A_disk = make_disk(P);
+stats_disk = graph_stats(A_disk);
+
+G_disk = graph(A_disk);
+
+figure;
+h = plot(G_disk, 'XData', P(:,1), 'YData', P(:,2));
+h.NodeLabel = {}; %hides the obnoxious numbered label for each node
+axis equal
+title('T4 Network Over Robot Positions')
+
+
+
