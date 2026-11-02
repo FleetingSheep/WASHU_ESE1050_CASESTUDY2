@@ -1,6 +1,5 @@
 rng(105);
 m = 4;
-seeds = 1:20; %test across multiple deployments
 N = 20;
 
 % Going to create a table with columns for the methods, and rows for
@@ -9,37 +8,70 @@ N = 20;
 %In order:
 %       Random      Highest Degree      Closest     Our Method
 
-
-
+projectRoot = fileparts(fileparts(mfilename('fullpath')));
+addpath(genpath(projectRoot));
+%i dont know much about pathing with matlab and this is the only solution
+%I found online that works sorry
 
 
 
 scores = (zeros(N, 4)); %record scores for all four methods during each loop of each seed
 
-for trial = 1:N
-    D = make_deployment(seed(trial));
+for trial = 1:N %tested across 20 seeds
+    D = make_deployment(trial);
     n = size(D.G, 1);
+    faulty = D.faulty;
 
-    n = size(G,1);
     working = true(n, 1);
     working(faulty) = false; %exclude faulty nodes from prospective leader pool
     S = [];
 
     eligible = working; %working robots who are not yet leaders
-    covered = false(n,1); %leaders, or robots covered by a leader
 
     %random
     for i = 1:m
-        %S(end + 1) = 
+        candidates = find(eligible);
+        randomCandidate = candidates(randi(length(candidates))); %grab random candidate
+        S(end+1) = randomCandidate;
+        eligible(randomCandidate) = false; %remove selected leader from pool
     end
 
-    scores(trial, 1) = score_mission(D, S);
-
+    scores(trial, 1) = score_mission(D, S);   
+    S = [];
+    eligible = working;
+    
     %highest degree
+    degrees = D.G*ones(n, 1);
+    
+    [~, rankedNodes] = sort(degrees, 'descend');
+    for i = 1:m
+        
+        j = 1;
+        while ~eligible(rankedNodes(j)) %to avoid leaders or faulties, skip past them
+            j = j + 1;
+        end
+        candidate = rankedNodes(j);
+        S(end+1) = candidate;
+        eligible(candidate) = false;
+        
+    end
     scores(trial, 2) = score_mission(D, S);
+    S = [];
+    eligible = working;
 
     %closest
+    for i = 1:m
+        candidates = find(eligible);
+        distances = sqrt(sum((D.P0(candidates, :) - mean(D.P0(working, :), 1)).^2, 2));
+        [~, idx] = min(distances);
+        candidate = candidates(idx);
+        S(end+1) = candidate;
+        eligible(candidate) = false;
+
+    end
     scores(trial, 3) = score_mission(D, S);
+    S = [];
+    eligible = working;
 
     %our method
     S = choose_leaders(D.G, D.P0, D.faulty, D.g, m);
@@ -49,8 +81,21 @@ for trial = 1:N
 
 end
 
-%figure;
-%scatter(scores);
-%xticklabels({'Random', 'Highest Deg.', 'Closest', 'Our Method'});
-%ylabel('Mission Score j');
+figure;
+x = 1:size(scores, 2);
+jitter = 0.15 * (rand(size(scores)) - 0.5);
+
+plot(x + jitter, scores, 'o', 'MarkerSize', 5);
+hold on;
+plot(x, mean(scores, 1), 'k_', 'MarkerSize', 12, 'LineWidth', 2, 'Color', 'white');
+hold off;
+
+xlim([0.5, size(scores, 2) + 0.5]);
+xticks(x);
+xticklabels({'Random', 'Highest Deg.', 'Closest', 'Our Method'});
+xlabel('Selection Method', 'FontSize', 14);
+ylabel('Mission Score j', 'FontSize', 14);
+set(gca, 'FontSize', 14);
+title('Leader Selection Method Score Comparison')
+grid on;
 

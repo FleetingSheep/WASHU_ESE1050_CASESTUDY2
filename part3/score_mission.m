@@ -1,13 +1,17 @@
 function J = score_mission(D, S) %deployment, leader set
 
-e_new_k; %mean squared distance from the working robots to g at step k, with our leaders
-e_base_k; %same but for no leaders
+%e_new_k is mean squared distance from the working robots to g at step k, with our leaders
+%e_base_k is same but for no leaders
 
-n = size(D.G, 1);
+projectRoot = fileparts(fileparts(mfilename('fullpath')));
+addpath(genpath(projectRoot));
+
+G = D.G;
+n = size(G, 1);
 T = 125; %number of time steps for scoring
 m = 4;
 
-if (numel(S) <= m)
+if (length(S) > m)
     disp('Too many leaders!!!')
 end
 
@@ -43,13 +47,9 @@ Y_new = simulate_anchored(W,lambda,b,y0,T);
 %Computes mean squared distance to the goal at each time step
 %D.g is the rally point
 
-eBase = mean((X_base - D.g(1)).^2 + (Y_base - D.g(2)).^2, 2);
-eNew = mean((X_new - D.g(1)).^2 + (Y_new - D.g(2)).^2, 2);
+e_base_k = mean((X_base(working,2:end) - D.g(1)).^2 + (Y_base(working,2:end) - D.g(2)).^2, 1);
 
-%since the summation starts at k = 1, exclude the initial node placement
-%from score calculation
-e_base_k = eBase(2:end);
-e_new_k = eNew(2:end);
+e_new_k = mean((X_new(working,2:end) - D.g(1)).^2 + (Y_new(working,2:end) - D.g(2)).^2, 1);
 
 
 J = (100 / T) * sum(1 - (e_new_k ./ e_base_k));
